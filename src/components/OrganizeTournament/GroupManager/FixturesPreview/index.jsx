@@ -1,7 +1,10 @@
 import React from "react";
+// import GroupManagerHelper from './GroupManager.class';
+// const groupMgr = new GroupManagerHelper();
 import styles from "./FixturesPreview.module.scss";
 
-const FixturesPreview = ({ teams, group, groupMgr }) => {
+const FixturesPreview = ({ teams, group}) => {
+    const matches = []; // groupMgr.matchesTable(group)
     switch (teams.length) {
         case 0:
             return <div className={styles.fixturesPreview}>No fixtures</div>;
@@ -15,7 +18,7 @@ const FixturesPreview = ({ teams, group, groupMgr }) => {
                 <div>
                     <h4>fixtures for group: {group}</h4>
                     <div className={styles.fixturesPreview}>{
-                        groupMgr.matchesTable(group).map((match, index) => (
+                        matches.map((match, index) => (
                             <div key={index} className={styles.match}>
                                 <span className={styles.team1}>{match.team1}</span>
                                 <span className={styles.vs}>vs</span>

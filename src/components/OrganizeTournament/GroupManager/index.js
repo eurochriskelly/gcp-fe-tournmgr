@@ -1,6 +1,5 @@
 // GroupManager.js
 import React, { useState, useEffect } from 'react';
-import GroupManagerHelper from './GroupManager.class';
 import FixturesPreview from './FixturesPreview';
 import styles from './GroupManager.module.scss';
 
@@ -14,7 +13,6 @@ const GroupManager = ({
     const [editIndex, setEditIndex] = useState(-1);
     const groupLetters = 'ABCDEFGH'.split('');
 
-    const groupMgr = new GroupManagerHelper();
 
     const getGroupLetter = (group) => {
         // if number, return upper case letter otherwise return group

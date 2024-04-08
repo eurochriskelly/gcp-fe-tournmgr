@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DD } from "~/src/frontend/shared/js/log";
+import { DD } from "~/node_modules/gcp-core-fe/src/js/log";
 import styles from "./TournamentLayout.module.scss";
 
 const TournamentLayout = ({ group = "", setGroup, tournament, children }) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AutocompleteSelect from "~/src/frontend/shared/generic/AutocompleteSelect";
+import AutocompleteSelect from "~/node_modules/gcp-core-fe/components/AutocompleteSelect";
 
 const TournamentSelector = ({
   tournamentId,
