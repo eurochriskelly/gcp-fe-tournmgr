@@ -1,0 +1,12 @@
+{
+  "name": "gcp-fe-tournmgr",
+  "version": "1.0.0",
+  "description": "Gaelic cup planner: front-end for tourmanment management",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
