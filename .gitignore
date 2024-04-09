@@ -1,0 +1,5 @@
+# managed by gcp-core-fe
+.storybook/
+tailwind.config.js
+postcss.config.js
+
