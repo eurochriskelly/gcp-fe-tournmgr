@@ -1,5 +1,5 @@
 import React from 'react';
-import TournamentLayout from './index.js';
+import TournamentLayout from '.';
 
 const TLWithChildren = (props) => {
   return (

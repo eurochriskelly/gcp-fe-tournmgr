@@ -1,5 +1,5 @@
 import React from 'react';
-import TournamentSelector from './index.js';
+import TournamentSelector from '.';
 
 
 // Mock the fetch function

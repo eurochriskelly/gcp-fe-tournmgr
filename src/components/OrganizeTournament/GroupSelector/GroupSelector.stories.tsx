@@ -1,5 +1,5 @@
 // import  GroupManager from '.';
-import GroupSelector from './index.js';         
+import GroupSelector from '.';         
 import { action } from '@storybook/addon-actions';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
