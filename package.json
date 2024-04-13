@@ -58,6 +58,7 @@
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-tailwindcss": "^3.15.1",
     "happy-dom": "^12.10.3",
+    "msw": "^2.2.13",
     "postcss": "^8.4.38",
     "prettier": "3.1.1",
     "sass": "^1.74.1",
@@ -71,6 +72,11 @@
   "eslintConfig": {
     "extends": [
       "plugin:storybook/recommended"
+    ]
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
     ]
   }
 }
