@@ -3,22 +3,21 @@ import GroupSelector from "./GroupSelector";
 import GroupManager from "./GroupManager";
 import TournamentSelector from "./TournamentSelector";
 import TournamentLayout from "./TournamentLayout";
+import { Tournament } from '../../utils/types';
 import styles from './OrganizeTournament.module.scss';
 
+
 const OrganizeTournament = () => {
-    const [selectedTournament, setSelectedTournament] = useState(null)
+    const [selectedTournament, setSelectedTournament] = useState<Tournament | null>(null)
     const [selectedGroup, setSelectedGroup] = useState(null)
 
-    const actions = {
-        setGroup: (group) => setSelectedGroup(group)
-    }
     return <div className={styles.organizeTournament}>
-        <h2>Organize Tournament</h2>
+        <h2>Organize Tournament A</h2>
 
         <TournamentSelector
             tournamentId={selectedTournament?.id}
             tournamentTitle={selectedTournament?.Title}
-            setTournament={x => {
+            setTournament={(x: Tournament) => {
                 console.log('Setting tournament to', x)
                 setSelectedTournament(x)
             }}
@@ -26,17 +25,13 @@ const OrganizeTournament = () => {
         {selectedTournament?.id && <TournamentLayout
             tournament={selectedTournament}
             group={selectedGroup}
-            setGroup={actions.setGroup}>
-            <>
-                {
-                    selectedGroup && <>
-                    <GroupManager
-                        group={selectedGroup}
-                        tournament={selectedTournament}
-                    />
-                    </>
-                }
-            </>
+            setGroup={setSelectedGroup}>
+            <>{
+                selectedGroup && <GroupManager
+                    group={selectedGroup}
+                    tournament={selectedTournament}
+                />
+            }</>
         </TournamentLayout>
         }
     </div>
