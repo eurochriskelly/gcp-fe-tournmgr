@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import GroupSelector from "./GroupSelector";
+import React, { useState } from 'react';
 import GroupManager from "./GroupManager";
 import TournamentSelector from "./TournamentSelector";
 import TournamentLayout from "./TournamentLayout";
-import { Tournament } from '../../utils/types';
+
+import { ITournament } from 'gcp-core/types'
 import styles from './OrganizeTournament.module.scss';
 
 
 const OrganizeTournament = () => {
-    const [selectedTournament, setSelectedTournament] = useState<Tournament | null>(null)
+    const [selectedTournament, setSelectedTournament] = useState<ITournament | null>(null)
     const [selectedGroup, setSelectedGroup] = useState(null)
 
     return <div className={styles.organizeTournament}>
@@ -17,7 +17,7 @@ const OrganizeTournament = () => {
         <TournamentSelector
             tournamentId={selectedTournament?.tournamentId}
             tournamentTitle={selectedTournament?.description}
-            setTournament={(x: Tournament) => {
+            setTournament={(x: ITournament) => {
                 console.log('Setting tournament to', x)
                 setSelectedTournament(x)
             }}
