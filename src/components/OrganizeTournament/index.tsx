@@ -12,17 +12,17 @@ const OrganizeTournament = () => {
     const [selectedGroup, setSelectedGroup] = useState(null)
 
     return <div className={styles.organizeTournament}>
-        <h2>Organize Tournament A</h2>
+        <h2>Organize Tournament</h2>
 
         <TournamentSelector
-            tournamentId={selectedTournament?.id}
-            tournamentTitle={selectedTournament?.Title}
+            tournamentId={selectedTournament?.tournamentId}
+            tournamentTitle={selectedTournament?.description}
             setTournament={(x: Tournament) => {
                 console.log('Setting tournament to', x)
                 setSelectedTournament(x)
             }}
         />
-        {selectedTournament?.id && <TournamentLayout
+        {selectedTournament?.tournamentId && <TournamentLayout
             tournament={selectedTournament}
             group={selectedGroup}
             setGroup={setSelectedGroup}>

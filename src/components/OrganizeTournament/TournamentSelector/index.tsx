@@ -18,15 +18,12 @@ const TournamentSelector = ({
       });
   }, []);
 
-  const setTournamentByTitle = (title) => {
-    const tournament = existingTournaments.find((x) => x.Title === title);
+  const setTournamentByTitle = (title: string) => {
+    const tournament: any = existingTournaments.find((x: any) => x?.description === title);
     // Get all trounament data
-    fetch(`/api/tournaments/${tournament.Id}`)
+    fetch(`/api/tournaments/${tournament?.tournamentId}`)
       .then((response) => response.json())
-      .then((data) => {
-        console.log(`Setting tournament to`, data.data);
-        setTournament(data.data);
-      })
+      .then(setTournament)
       .catch((error) => {
         console.error("Error fetching next fixtures:", error);
       });
@@ -38,7 +35,7 @@ const TournamentSelector = ({
     <div style={style}>
       <h3>Tournament Selector</h3>
       <AutocompleteSelect
-        options={existingTournaments.map((x) => x.Title)}
+        options={existingTournaments.map((x) => x.description)}
         limit={8}
         selectAction={setTournamentByTitle}
       />

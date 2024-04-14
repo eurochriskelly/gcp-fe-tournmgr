@@ -7,7 +7,7 @@ const TournamentLayout = ({ group = "", setGroup, tournament, children }) => {
   const [groupNames, setGroupNames] = useState([]);
 
   useEffect(() => {
-    const tournamentId = tournament?.id;
+    const tournamentId = tournament?.tournamentId;
     if (!tournamentId) return;
     setGroupNames(
       Array.from(new Set(tournament.groups?.map((x) => x.category) || []))
@@ -26,7 +26,7 @@ const TournamentLayout = ({ group = "", setGroup, tournament, children }) => {
     <div className={styles.tournamentLayout}>
       <div className={styles.sidePanel}>
         <SideSection title="Tournament">
-          <div className={styles.tournamentTitle}>{tournament?.Title}</div>
+          <div className={styles.tournamentTitle}>{tournament?.description}</div>
         </SideSection>
 
         <SideSection title="Categories">

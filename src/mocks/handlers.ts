@@ -1,30 +1,33 @@
-import { http, HttpResponse } from 'msw'
+import { http, HttpResponse } from 'msw';
+import testdata from 'gcp-core/dist/esm/test/test-data.js';
+
+const tournaments = Object.values(testdata.tournaments);
  
 export const handlers = [
   http.get(
     '/api/tournaments', () => {
     // Note that you DON'T have to stringify the JSON!
     return HttpResponse.json({
-      data: [
-        { Id: 123, Title: 'Foo1', Date: '2024-09-01' },
-        { Id: 124, Title: 'Foo2', Date: '2024-10-01' },
-        { Id: 125, Title: 'Foo3', Date: '2024-11-01' },
-        { Id: 126, Title: 'Foo4', Date: '2024-12-01' },
-        // Add more mock data as needed
-      ],
+      data: tournaments.map(t => ({
+        tournamentId: t.tournamentId,
+        description: t.description,
+        date: t.startDate,
+      }))
     })
   }),
-  http.get(
-    '/api/tournaments/:id', () => {
-    // Note that you DON'T have to stringify the JSON!
-    return HttpResponse.json({
-      data: [
-        { Id: 123, Title: 'Foo1', Date: '2024-09-01' },
-        { Id: 124, Title: 'Foo2', Date: '2024-10-01' },
-        { Id: 125, Title: 'Foo3', Date: '2024-11-01' },
-        { Id: 126, Title: 'Foo4', Date: '2024-12-01' },
-        // Add more mock data as needed
-      ],
-    })
-  }),
+  // Handle requests for a specific tournament by ID
+  http.get('/api/tournaments/:tournamentId', (req, res, ctx) => {
+    const { tournamentId } = req.params;
+    const tournament = tournaments.find(t => t.tournamentId === Number(tournamentId));
+  
+    console.log('tt', tournament)
+    if (tournament) {
+      return HttpResponse.json(tournament);
+    } else {
+      return res(
+        ctx.status(404),
+        ctx.json({ error: 'Tournament not found' })
+      );
+    }
+  })
 ]
