@@ -1,40 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { DD } from "gcp-core-fe/src/js/log";
 import styles from "./TournamentLayout.module.scss";
+import { ITournament, IPitch } from "gcp-core/types";
+import Tournament from "gcp-core/dist/esm/src/Tournament.class";
 
-const TournamentLayout = ({ group = "", setGroup, tournament, children }) => {
+interface Params {
+  group: string;
+  setGroup: (group: string) => void;
+  tournament: ITournament;
+  children: any;
+}
+
+const TournamentLayout = ({
+  group = "", 
+  setGroup, 
+  tournament, 
+  children 
+}: Params) => {
   const [existingGroups, setExistingGroups] = useState([]);
-  const [groupNames, setGroupNames] = useState([]);
+  // FIXME: make the tournament object sooner
+  const [tournamentData, setTournamentData] = useState<any>(null);
 
   useEffect(() => {
-    const tournamentId = tournament?.id;
+    const tournamentId = tournament?.tournamentId;
     if (!tournamentId) return;
-    setGroupNames(
-      Array.from(new Set(tournament.groups?.map((x) => x.category) || []))
-    );
-    fetch(`/api/tournaments/${tournamentId}/groups`)
-      .then((response) => response.json())
-      .then((data) => {
-        setExistingGroups(data.data.map((x) => x.category));
-      })
-      .catch((error) => {
-        console.error("Error fetching next fixtures:", error);
-      });
+    setTournamentData(new Tournament(tournament));
   }, [tournament]);
 
   return (
     <div className={styles.tournamentLayout}>
       <div className={styles.sidePanel}>
         <SideSection title="Tournament">
-          <div className={styles.tournamentTitle}>{tournament?.Title}</div>
+          <div className={styles.tournamentTitle}>{tournament?.description}</div>
         </SideSection>
 
         <SideSection title="Categories">
-          <EditSelector action={setGroup} current={group} list={groupNames} />
+          <EditSelector action={setGroup} current={group} list={tournamentData?.categoryNames} />
         </SideSection>
 
         <SideSection title="Pitches">
-          <EditSelector list={["Z1", "Z2", "Z3"]} />
+          <EditSelector list={tournament.pitches.map((x: IPitch) => x.name)} />
         </SideSection>
       </div>
       <div>
