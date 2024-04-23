@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { ListBox } from 'primereact/listbox';
+import { Calendar } from 'primereact/calendar';
+import { Panel } from 'primereact/panel';
+import { InputText } from 'primereact/inputtext';
+import { Accordion, AccordionTab } from 'primereact/accordion';
 import { DD } from "gcp-core-fe/src/js/log";
-import styles from "./TournamentLayout.module.scss";
 import { ITournament, IPitch } from "gcp-core/types";
-import Tournament from "gcp-core/dist/esm/src/Tournament.class";
+import Tournament from "gcp-core/src/Tournament.class.ts";
+import TournamentDetail from "./TournamentDetail";
+
+import styles from "./TournamentLayout.module.scss";
 
 interface Params {
   group: string;
@@ -13,13 +20,11 @@ interface Params {
 
 const TournamentLayout = ({
   group = "", 
-  setGroup, 
   tournament, 
   children 
 }: Params) => {
-  const [existingGroups, setExistingGroups] = useState([]);
-  // FIXME: make the tournament object sooner
   const [tournamentData, setTournamentData] = useState<any>(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     const tournamentId = tournament?.tournamentId;
@@ -28,27 +33,46 @@ const TournamentLayout = ({
   }, [tournament]);
 
   return (
-    <div className={styles.tournamentLayout}>
-      <div className={styles.sidePanel}>
-        <SideSection title="Tournament">
-          <div className={styles.tournamentTitle}>{tournament?.description}</div>
-        </SideSection>
+    <Panel header="Tournament Builder">
+      <div className={styles.tournamentLayout}>
+        <div className={styles.sidePanel}>
+          <SideSection title="Event">
+            <div className="p-inputgroup flex-1">
+              <span className="p-inputgroup-addon">
+                  <i className="pi pi-user"></i>
+              </span>
+              <InputText placeholder="Title" value={tournament?.description} />
+            </div>
+            <div>{tournament?.startDate}</div>
+            <Calendar value={tournament?.startDate} onChange={(e) => e} />
+          </SideSection>
 
-        <SideSection title="Categories">
-          <EditSelector action={setGroup} current={group} list={tournamentData?.categoryNames} />
-        </SideSection>
+          <SideSection title="Categories">
+            <ListBox value={selectedCategory} onChange={(e) => setSelectedCategory(e.value?.name)} options={tournamentData?.categoryPairs} optionLabel="name" className="w-full md:w-14rem" />
+          </SideSection>
 
-        <SideSection title="Pitches">
-          <EditSelector list={tournament.pitches.map((x: IPitch) => x.name)} />
-        </SideSection>
-      </div>
-      <div>
-        <div className={styles.groupDetailsSection}>
-          <h3>Define groups for [{group}]</h3>
-          <div>{children}</div>
+          { selectedCategory && <Accordion activeIndex={0}>
+            <AccordionTab header="Teams">
+              <ListBox 
+                value={selectedCategory} 
+                options={tournamentData?.getTeamPairs(selectedCategory)}
+                optionLabel="name" 
+                listStyle={{ maxHeight: '400px' }}
+                className="w-full md:w-14rem" />
+            </AccordionTab>
+
+            <AccordionTab header="Brackets">
+              <EditSelector list={tournament.pitches.map((x: IPitch) => x.name)} />
+            </AccordionTab>
+
+            <AccordionTab header="Pitches">
+              <EditSelector list={tournament.pitches.map((x: IPitch) => x.name)} />
+            </AccordionTab>
+          </Accordion>}
         </div>
+        <TournamentDetail data={tournamentData} category={selectedCategory} />
       </div>
-    </div>
+    </Panel>
   );
 };
 

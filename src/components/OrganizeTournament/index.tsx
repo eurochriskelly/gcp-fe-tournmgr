@@ -4,15 +4,18 @@ import TournamentSelector from "./TournamentSelector";
 import TournamentLayout from "./TournamentLayout";
 
 import { ITournament } from 'gcp-core/types'
-import styles from './OrganizeTournament.module.scss';
 
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+
+import styles from './OrganizeTournament.module.scss';
 
 const OrganizeTournament = () => {
     const [selectedTournament, setSelectedTournament] = useState<ITournament | null>(null)
     const [selectedGroup, setSelectedGroup] = useState(null)
 
     return <div className={styles.organizeTournament}>
-        <h2>Organize Tournament</h2>
 
         <TournamentSelector
             tournamentId={selectedTournament?.tournamentId}

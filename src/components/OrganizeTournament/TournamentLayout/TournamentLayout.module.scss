@@ -12,14 +12,13 @@ active {
 }
 
 .sidePanel {
-  border-right: 2px solid red;
+  // border-right: 2px solid red;
   >h4 {
     width: auto;
     background: none;
   }
   >div {
-    border-bottom: 1px solid blue;
-    padding-bottom: 3rem;
+    padding-bottom: 1rem;
   }
   .sideLabel {
     font-weight: bold;
