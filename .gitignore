@@ -2,6 +2,6 @@
 .storybook/
 tailwind.config.js
 postcss.config.js
-
+links/
 
 *storybook.log

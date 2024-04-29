@@ -20,10 +20,7 @@ const OrganizeTournament = () => {
         <TournamentSelector
             tournamentId={selectedTournament?.tournamentId}
             tournamentTitle={selectedTournament?.description}
-            setTournament={(x: ITournament) => {
-                console.log('Setting tournament to', x)
-                setSelectedTournament(x)
-            }}
+            setTournament={(x: ITournament) => setSelectedTournament(x) }
         />
         {selectedTournament?.tournamentId && <TournamentLayout
             tournament={selectedTournament}
