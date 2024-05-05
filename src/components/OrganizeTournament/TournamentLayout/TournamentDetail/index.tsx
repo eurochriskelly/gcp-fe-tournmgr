@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { TabMenu } from 'primereact/tabmenu';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ITournament, IFixture } from "gcp-core"; 
+import { ITournament, IFixture } from "gcp-core";
 import TournamentOrganize from "gcp-core/TournamentOrganize";
 
 import styles from "./TournamentDetail.module.scss";
 
 interface Params {
-    category: string;
+    category: string | null;
     data: ITournament;
 }
 
@@ -18,8 +18,8 @@ const TournamentDetail = ({
 }: Params) => {
     const [activities, setActivities] = useState<IFixture[]>([]);
     const [numToShow, setNumToShow] = useState(5);
-    const organizer : any = new TournamentOrganize(data);
-    useEffect(() => {   
+    const organizer: any = new TournamentOrganize(data);
+    useEffect(() => {
         organizer.generate();
         setActivities(organizer?.activities);
     }, []);
@@ -29,7 +29,7 @@ const TournamentDetail = ({
                 className="p-button p-button-rounded p-button-text"
                 onClick={() => {
                     const catActivities = activities
-                        .sort((a: IFixture, b: IFixture) => a.scheduledTime > b.scheduledTime ? 1 : b.scheduledTime> a.scheduledTime? -1 : 0)
+                        .sort((a: IFixture, b: IFixture) => a.scheduledTime > b.scheduledTime ? 1 : b.scheduledTime > a.scheduledTime ? -1 : 0)
                         .filter((x: IFixture) => x.category === category)
                         .slice(0, numToShow);
                     setNumToShow(numToShow + 1);
