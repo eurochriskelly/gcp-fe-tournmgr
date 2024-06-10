@@ -24,8 +24,11 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@silevis/reactgrid": "^4.1.5",
     "@storybook/addon-actions": "^8.0.6",
     "@types/react-router-dom": "^5.3.3",
+    "gcp-core": "file:../gcp-core",
+    "gcp-core-fe": "file:../gcp-core-fe",
     "primeicons": "^7.0.0",
     "primereact": "^10.6.3",
     "react": "^18.2.0",

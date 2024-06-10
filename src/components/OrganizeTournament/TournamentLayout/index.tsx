@@ -6,7 +6,7 @@ import { InputText } from 'primereact/inputtext';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { DD } from "gcp-core-fe";
 import { ITournament, IPitch } from "gcp-core";
-import Tournament from "gcp-core/Tournament";
+import { Tournament } from "gcp-core";
 import TournamentDetail from "./TournamentDetail";
 
 import styles from "./TournamentLayout.module.scss";
