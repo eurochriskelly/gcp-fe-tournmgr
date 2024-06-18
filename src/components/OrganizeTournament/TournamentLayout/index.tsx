@@ -4,9 +4,9 @@ import { Calendar } from 'primereact/calendar';
 import { Panel } from 'primereact/panel';
 import { InputText } from 'primereact/inputtext';
 import { Accordion, AccordionTab } from 'primereact/accordion';
-import { DD } from "gcp-core-fe/src/js/log";
-import { ITournament, IPitch } from "gcp-core/types";
-import Tournament from "gcp-core/src/Tournament.class.ts";
+import { DD } from "gcp-core-fe";
+import { ITournament, IPitch } from "gcp-core";
+import { Tournament } from "gcp-core";
 import TournamentDetail from "./TournamentDetail";
 
 import styles from "./TournamentLayout.module.scss";
@@ -32,7 +32,7 @@ const TournamentLayout = ({
     setTournamentData(new Tournament(tournament));
   }, [tournament]);
 
-  return (
+  return ( 
     <Panel header="Tournament Builder">
       <div className={styles.tournamentLayout}>
         <div className={styles.sidePanel}>
@@ -43,7 +43,7 @@ const TournamentLayout = ({
               </span>
               <InputText placeholder="Title" value={tournament?.description} />
             </div>
-            <div>{tournament?.startDate}</div>
+            <div>{`${tournament?.startDate}`}</div>
             <Calendar value={tournament?.startDate} onChange={(e) => e} />
           </SideSection>
 
@@ -62,11 +62,11 @@ const TournamentLayout = ({
             </AccordionTab>
 
             <AccordionTab header="Brackets">
-              <EditSelector list={tournament.pitches.map((x: IPitch) => x.name)} />
+              <EditSelector list={tournament?.pitches?.map((x: IPitch) => x.name)} />
             </AccordionTab>
 
             <AccordionTab header="Pitches">
-              <EditSelector list={tournament.pitches.map((x: IPitch) => x.name)} />
+              <EditSelector list={tournament?.pitches?.map((x: IPitch) => x.name)} />
             </AccordionTab>
           </Accordion>}
         </div>
@@ -78,7 +78,7 @@ const TournamentLayout = ({
 
 export default TournamentLayout;
 
-function SideSection({ title = "PLEASE SET!", children }) {
+function SideSection({ title = "PLEASE SET!", children }: any) {
   return (
     <div className={styles.sideSection}>
       <h5 className={styles.sideLabel}>{title}:</h5>
@@ -87,11 +87,11 @@ function SideSection({ title = "PLEASE SET!", children }) {
   );
 }
 
-function EditSelector({ list = [], current = "", action = () => {} }) {
+function EditSelector({ list = [], current = "", action = () => {} }: any) {
   //
   return (
     <div>
-      {list.map((x, i) => (
+      {list.map((x: string, i: number) => (
         <div
           key={`{x}-${i}`}
           className={`${styles.groupItem} ${

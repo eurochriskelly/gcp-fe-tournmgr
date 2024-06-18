@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { TabMenu } from 'primereact/tabmenu';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ITournament, IFixture } from "gcp-core/types";
-import TournamentOrganize from "gcp-core/src/TournamentOrganize.class";
+import { ITournament, IFixture } from "gcp-core";
+import TournamentOrganize from "gcp-core/TournamentOrganize";
 
 import styles from "./TournamentDetail.module.scss";
 
 interface Params {
-    category: string;
+    category: string | null;
     data: ITournament;
 }
 
@@ -18,28 +18,22 @@ const TournamentDetail = ({
 }: Params) => {
     const [activities, setActivities] = useState<IFixture[]>([]);
     const [numToShow, setNumToShow] = useState(5);
-    const organizer = new TournamentOrganize(data);
-    useEffect(() => {   
-       console.log(' w do ') 
+    const organizer: any = new TournamentOrganize(data);
+    useEffect(() => {
         organizer.generate();
-        setActivities(organizer.activities);
+        setActivities(organizer?.activities);
     }, []);
     return (
         <div className="card" >
             <button
                 className="p-button p-button-rounded p-button-text"
                 onClick={() => {
-                    console.log('Generate');
-                    console.log('num activites', activities?.length)
-                    const activities = activities?
-                        .sort((a: IFixture, b: IFixture) => a.ref > b.ref ? 1 : b.ref > a.ref ? -1 : 0)
+                    const catActivities = activities
+                        .sort((a: IFixture, b: IFixture) => a.scheduledTime > b.scheduledTime ? 1 : b.scheduledTime > a.scheduledTime ? -1 : 0)
                         .filter((x: IFixture) => x.category === category)
                         .slice(0, numToShow);
-                    console.log(activities)
-                    console.log(activities.slice(-1))
                     setNumToShow(numToShow + 1);
-                    console.log(activities)
-                    setActivities(activities)
+                    setActivities(catActivities)
                 }}>Generate</button>
             <TabMenu activeIndex={1} model={[
                 { label: 'Groups', icon: 'pi pi-fw pi-users' },
@@ -70,7 +64,7 @@ const TournamentDetail = ({
 
 const TeamIconified = (n: number, fixture: IFixture) => {
     return <div className={styles.tdTeam}>
-        <div className={`teamName {}`}>{fixture[`team${n}`]}</div>
+        <div className={`teamName {}`}>{n == 1 ? fixture.team1 : fixture.team2}</div>
     </div>
 }
 
@@ -83,12 +77,12 @@ const StageView = (fixture: IFixture) => {
 }
 
 const ShowScore = (n: number, fixture: IFixture) => {
-    const score = fixture[`score${n}`];
+    const score = n === 1 ? fixture.score1 : fixture.score2;
     const { goals, points } = score;
     const pointsStr = points ? points.toString().padStart(2, '0') : '00';
     // total points is goals*3 + points and must be displayed in brackets as 2 digits
     // if points is null, it should be displayed as 00
-    let totalPoints = goals * 3 + points;
+    let totalPoints = `${(goals && points) ? (goals * 3 + points) : 0}`;
     totalPoints = totalPoints.toString().padStart(2, '00');
     if (goals || points) {
         return <div className={`${styles.aScore} `}>
@@ -115,62 +109,3 @@ const ShowScore = (n: number, fixture: IFixture) => {
 export default TournamentDetail;
 
 
-
-function hoistMockActivities(id: number = 1) {
-    const fixutres: IFixture[][] = [
-        [
-            {
-                matchId: 1,
-                scheduledTime: "2021-10-01T10:00:00",
-                pitch: "Pitch 1",
-                category: 'Mens',
-                stage: 'group',
-                position: 3,
-                time: {
-                    halfDuration: 10,
-                    breakDuration: 5,
-                    minRest: 5,
-                    allotted: 30,
-                },
-                team1: "Team 1",
-                score1: {
-                    goals: 1,
-                    points: 3
-                },
-                team2: "Team 2",
-                score2: {
-                    goals: 3,
-                    points: 7,
-                },
-            },
-            {
-                matchId: 2,
-                scheduledTime: "2021-10-01T10:30:00",
-                pitch: "Pitch 1",
-                category: 'Ladies',
-                stage: 'group',
-                position: 2,
-                time: {
-                    halfDuration: 10,
-                    breakDuration: 5,
-                    minRest: 5,
-                    allotted: 30,
-                },
-                team1: "Cranberries",
-                score1: {
-                    goals: null,
-                    points: null,
-                },
-                team2: "Carlton Athletic",
-                score2: {
-                    goals: null,
-                    points: null,
-                },
-            },
-        ], [
-
-        ]
-    ]
-
-    return fixutres[id];
-}

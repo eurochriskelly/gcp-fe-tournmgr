@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import testdata from 'gcp-core/dist/esm/test/test-data.js';
+import * as testdata from 'gcp-core';
 
 const tournaments = Object.values(testdata.tournaments);
  
